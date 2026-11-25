@@ -1,0 +1,125 @@
+<Window x:Class="StudentRegistrationApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Student Registration App" Height="700" Width="1150"
+        MinHeight="620" MinWidth="980"
+        WindowStartupLocation="CenterScreen" Background="#F1F5F9">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="Student Registration App" FontSize="26" FontWeight="Bold"
+                       Foreground="{StaticResource PrimaryBrush}"/>
+            <TextBlock Text="Kelola data mahasiswa: simpan, edit, hapus, cari, dan reset"
+                       Foreground="#64748B"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- FORM -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="16">
+                <DockPanel>
+                    <TextBlock x:Name="txtFormTitle" DockPanel.Dock="Top" Text="Form Mahasiswa Baru"
+                               FontSize="16" FontWeight="Bold"/>
+
+                    <WrapPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+                        <Button x:Name="btnSimpan" Content="Simpan" Click="BtnSimpan_Click"
+                                Style="{StaticResource ActionButton}" Background="{StaticResource PrimaryBrush}"/>
+                        <Button x:Name="btnEdit" Content="Edit" Click="BtnEdit_Click" IsEnabled="False"
+                                Style="{StaticResource ActionButton}" Background="{StaticResource WarningBrush}"/>
+                        <Button x:Name="btnHapus" Content="Hapus" Click="BtnHapus_Click" IsEnabled="False"
+                                Style="{StaticResource ActionButton}" Background="{StaticResource DangerBrush}"/>
+                        <Button x:Name="btnReset" Content="Reset" Click="BtnReset_Click"
+                                Style="{StaticResource ActionButton}" Background="{StaticResource NeutralBrush}"/>
+                    </WrapPanel>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="0,0,6,0">
+                            <TextBlock Text="NIM *" Style="{StaticResource FormLabel}"/>
+                            <TextBox x:Name="txtNim" Padding="5" MaxLength="15"/>
+
+                            <TextBlock Text="Nama Lengkap *" Style="{StaticResource FormLabel}"/>
+                            <TextBox x:Name="txtNama" Padding="5" MaxLength="100"/>
+
+                            <TextBlock Text="Jenis Kelamin *" Style="{StaticResource FormLabel}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="rbLaki" Content="Laki-laki" Margin="0,0,20,0"/>
+                                <RadioButton x:Name="rbPerempuan" Content="Perempuan"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Tanggal Lahir *" Style="{StaticResource FormLabel}"/>
+                            <DatePicker x:Name="dpTanggalLahir"/>
+
+                            <TextBlock Text="Program Studi *" Style="{StaticResource FormLabel}"/>
+                            <ComboBox x:Name="cbProdi" Padding="5"/>
+
+                            <TextBlock Text="Email *" Style="{StaticResource FormLabel}"/>
+                            <TextBox x:Name="txtEmail" Padding="5"/>
+
+                            <TextBlock Text="No. HP" Style="{StaticResource FormLabel}"/>
+                            <TextBox x:Name="txtNoHp" Padding="5" MaxLength="15"/>
+
+                            <TextBlock Text="Alamat" Style="{StaticResource FormLabel}"/>
+                            <TextBox x:Name="txtAlamat" Padding="5" Height="60" TextWrapping="Wrap"
+                                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- DAFTAR -->
+            <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" Margin="0,0,0,10">
+                        <TextBlock DockPanel.Dock="Left" Text="Daftar Mahasiswa" FontSize="16"
+                                   FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                        <Button DockPanel.Dock="Right" Content="Cari" Click="BtnCari_Click"
+                                Style="{StaticResource ActionButton}" Margin="8,0,0,0"
+                                Background="{StaticResource PrimaryBrush}"/>
+                        <TextBox x:Name="txtCari" Padding="6" VerticalContentAlignment="Center"
+                                 ToolTip="Cari berdasarkan NIM, nama, program studi, atau email"
+                                 KeyDown="TxtCari_KeyDown"/>
+                    </DockPanel>
+
+                    <DataGrid x:Name="dgStudents" Grid.Row="1" AutoGenerateColumns="False"
+                              IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
+                              CanUserAddRows="False" HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal" AlternatingRowBackground="#F8FAFC"
+                              RowHeight="30" ColumnHeaderHeight="34"
+                              SelectionChanged="DgStudents_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="NIM" Binding="{Binding Nim}" Width="80"/>
+                            <DataGridTextColumn Header="Nama" Binding="{Binding Nama}" Width="*"/>
+                            <DataGridTextColumn Header="L/P" Binding="{Binding JenisKelamin}" Width="90"/>
+                            <DataGridTextColumn Header="Tgl Lahir"
+                                                Binding="{Binding TanggalLahir, StringFormat=dd/MM/yyyy}" Width="90"/>
+                            <DataGridTextColumn Header="Program Studi" Binding="{Binding ProgramStudi}" Width="150"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                            <DataGridTextColumn Header="No. HP" Binding="{Binding NoHp}" Width="110"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Status bar -->
+        <TextBlock x:Name="txtStatus" Grid.Row="2" Margin="0,10,0,0" Foreground="#475569"
+                   Text="Siap."/>
+    </Grid>
+</Window>
